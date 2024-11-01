@@ -2,7 +2,7 @@
 set -eo pipefail
 
 # Create base config
-cat << EOF > config.yaml
+cat << EOF > supertokens-config.yml
 core_config_version: 0
 postgresql_config_version: 0
 host: 0.0.0.0
