@@ -15,6 +15,6 @@ zerops:
       ports:
         - port: 3567
           httpSupport: true
-      start: supertokens --host=0.0.0.0
+      start: supertokens start --host=0.0.0.0 --foreground
         
       
