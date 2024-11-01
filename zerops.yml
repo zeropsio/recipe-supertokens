@@ -8,6 +8,7 @@ zerops:
       base: java@21
       os: ubuntu
       prepareCommands:
+        - java -version
         - curl 'https://api.supertokens.com/0/user/app/download?pluginName=postgresql&os=linux&core=9.3.0&api-version=0' --output supertokens.zip
         - unzip supertokens.zip
         - sudo sh supertokens/install
