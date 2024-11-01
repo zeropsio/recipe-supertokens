@@ -15,6 +15,8 @@ zerops:
       ports:
         - port: 3567
           httpSupport: true
+      initCommands:
+        - sh setup-envs.sh
       start: supertokens start --foreground --with-config="/var/www/supertokens-config.yml"
         
       
