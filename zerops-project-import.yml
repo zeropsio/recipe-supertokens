@@ -18,6 +18,12 @@ services:
       API_KEYS: <@generateRandomString(<32>)>
     priority: 90
 
+  - hostname: mailpit
+    type: go@1.22
+    buildFromGit: https://github.com/zeropsio/recipe-mailpit@main
+    enableSubdomainAccess: true
+    priority: 90
+
   - hostname: nodejsbackend
     type: nodejs@22
     buildFromGit: https://github.com/zeropsio/recipe-supertokens
@@ -29,8 +35,8 @@ services:
       SMTP_FROM_NAME: zerops
       SMTP_HOST: ${mailpit_hostname}
       SMTP_PORT: "1025"
-      SUPERTOKENS_ADMIN_EMAIL: admin@foobar.com
-      SUPERTOKENS_ADMIN_PASSWORD: <@generateRandomString(<12>)>
+      SUPERTOKENS_ADMIN_EMAIL: admin@example.com
+      SUPERTOKENS_ADMIN_PASSWORD: <@getVar(randomPass) | sha256>
       SUPERTOKENS_API_KEY: ${supertokens_API_KEYS}
       SUPERTOKENS_CONNECTION_URI: ${supertokens_zeropsSubdomain}
       SUPERTOKENS_INSTANCE: ${supertokens_zeropsSubdomain}/recipe/dashboard/user
@@ -45,7 +51,3 @@ services:
       APP_NAME: ${nodejsbackend_APP_NAME}
       WEBSITE_DOMAIN: ${zeropsSubdomain}
 
-  - hostname: mailpit
-    type: go@1.22
-    buildFromGit: https://github.com/zeropsio/recipe-mailpit@main
-    enableSubdomainAccess: true
