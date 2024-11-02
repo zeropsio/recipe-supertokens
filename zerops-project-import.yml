@@ -4,9 +4,9 @@ project:
   tags:
     - zerops-recipe
   envVariables:
-    FRONTEND_URL: https://${hostname}-${core_zeropsSubdomainHost}.prg1.zerops.app
-    BACKEND_URL: https://${hostname}-${core_zeropsSubdomainHost}-3001.prg1.zerops.app
-    INSTANCE_URL: https://${hostname}-${core_zeropsSubdomainHost}-3567.prg1.zerops.app
+    FRONTEND_URL: https://angularfrontend-${core_zeropsSubdomainHost}.prg1.zerops.app
+    BACKEND_URL: https://nodejsbackend-${core_zeropsSubdomainHost}-3001.prg1.zerops.app
+    INSTANCE_URL: https://supertokens-${core_zeropsSubdomainHost}-3567.prg1.zerops.app
 
 services:
   - hostname: db
@@ -56,6 +56,6 @@ services:
     buildFromGit: https://github.com/zeropsio/recipe-supertokens
     envSecrets:
       API_DOMAIN: ${PROJECT_BACKEND_URL}
-      APP_NAME: ${PROJECT_BACKEND_URL}
+      APP_NAME: ${nodejsbackend_APP_NAME}
       WEBSITE_DOMAIN: ${PROJECT_FRONTEND_URL}
 
