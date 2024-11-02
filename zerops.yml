@@ -44,9 +44,6 @@ zerops:
     run:
       base: nodejs@22
       initCommands:
-        - printenv
-        - echo $hostname
-        - echo $core_zeropsSubdomainHost
         - zsc execOnce INIT -- sh create-user.sh
       ports:
         - port: 3001
