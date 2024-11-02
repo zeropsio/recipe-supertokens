@@ -35,7 +35,7 @@ SuperTokens.init({
                 name: process.env.SMTP_FROM_NAME,
                 email: process.env.SMTP_FROM_EMAIL,
             },
-            secure: true,
+            secure: false,
           },
         })
       }
