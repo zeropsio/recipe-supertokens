@@ -15,7 +15,7 @@ services:
     buildFromGit: https://github.com/zeropsio/recipe-supertokens
     enableSubdomainAccess: true
     envSecrets:
-      API_KEYS: <@generateRandomString(<32>)>
+      API_KEYS: <@generateRandomString(<32>) | toHex>
     priority: 90
 
   - hostname: mailpit
@@ -36,7 +36,7 @@ services:
       SMTP_HOST: ${mailpit_hostname}
       SMTP_PORT: "1025"
       SUPERTOKENS_ADMIN_EMAIL: admin@example.com
-      SUPERTOKENS_ADMIN_PASSWORD: <@generateRandomString(<32>)>
+      SUPERTOKENS_ADMIN_PASSWORD: <@generateRandomString(<12>) | toHex>xY1_
       SUPERTOKENS_API_KEY: ${supertokens_API_KEYS}
       SUPERTOKENS_CONNECTION_URI: ${supertokens_zeropsSubdomain}
       SUPERTOKENS_INSTANCE: ${supertokens_zeropsSubdomain}/recipe/dashboard/user
