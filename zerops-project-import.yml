@@ -3,13 +3,13 @@ project:
   name: recipe-supertokens
   tags:
     - zerops-recipe
-    
+
 services:
   - hostname: db
     type: postgresql@16
     mode: NON_HA
     priority: 100
-    
+
   - hostname: supertokens
     type: ubuntu@22.04
     buildFromGit: https://github.com/zeropsio/recipe-supertokens
@@ -28,18 +28,18 @@ services:
       SMTP_FROM_EMAIL: no-reply@example.com
       SMTP_FROM_NAME: zerops
       SMTP_HOST: ${mailpit_hostname}
-      SMTP_PORT: 1025
+      SMTP_PORT: "1025"
       SUPERTOKENS_ADMIN_EMAIL: admin@foobar.com
       SUPERTOKENS_ADMIN_PASSWORD: <@generateRandomString(<12>)>
       SUPERTOKENS_API_KEY: ${supertokens_API_KEYS}
       SUPERTOKENS_CONNECTION_URI: ${supertokens_zeropsSubdomain}
       SUPERTOKENS_INSTANCE: ${supertokens_zeropsSubdomain}/recipe/dashboard/user
       WEBSITE_DOMAIN: ${angularfrontend_zeropsSubdomain}
-      
+
   - hostname: angularfrontend
     type: static
-    type: nodejs@22
-    buildFromGit: https://github.com/zeropsio/recipe-supertokens    
+    enableSubdomainAccess: true
+    buildFromGit: https://github.com/zeropsio/recipe-supertokens
     envSecrets:
       API_DOMAIN: ${nodejsbackend_zeropsSubdomain}
       APP_NAME: ${nodejsbackend_APP_NAME}
@@ -49,4 +49,3 @@ services:
     type: go@1.22
     buildFromGit: https://github.com/zeropsio/recipe-mailpit@main
     enableSubdomainAccess: true
-    enableSubdomainAccess: true      
