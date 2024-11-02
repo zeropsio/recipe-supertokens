@@ -1,9 +1,10 @@
 import express from 'express';
+import cors from 'cors';
 import SuperTokens from 'supertokens-node';
 import Dashboard from 'supertokens-node/recipe/dashboard';
 import Passwordless from 'supertokens-node/recipe/passwordless';
-import Session from "supertokens-node/recipe/session";
-import { SMTPService } from "supertokens-node/recipe/passwordless/emaildelivery";
+import Session from 'supertokens-node/recipe/session';
+import { SMTPService } from 'supertokens-node/recipe/passwordless/emaildelivery';
 import { middleware, errorHandler } from 'supertokens-node/framework/express';
 
 const app = express();
@@ -45,14 +46,14 @@ app.use(
   middleware(),
   cors({
     origin: process.env.WEBSITE_DOMAIN,
-    allowedHeaders: ["content-type", ...SuperTokens.getAllCORSHeaders()],
-    methods: ["GET", "PUT", "POST", "DELETE"],
+    allowedHeaders: ['content-type', ...SuperTokens.getAllCORSHeaders()],
+    methods: ['GET', 'PUT', 'POST', 'DELETE'],
     credentials: true,
   })
 );
 
 // An example API that requires session verification
-app.get("/sessioninfo", verifySession(), async (req, res) => {
+app.get('/sessioninfo', verifySession(), async (req, res) => {
   let session = req.session;
   res.send({
       sessionHandle: session.getHandle(),
