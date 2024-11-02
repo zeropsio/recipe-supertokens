@@ -16,7 +16,7 @@ services:
     enableSubdomainAccess: true
     envSecrets:
       API_KEYS: <@generateRandomString(<32>) | toHex>
-      URL: https://${hostname}-${core_zeropsSubdomainHost}-3000.prg1.zerops.app
+      URL: https://${hostname}-${core_zeropsSubdomainHost}-3567.prg1.zerops.app
     verticalAutoscaling:
       minRam: 0.5
       startCpuCoreCount: 3
