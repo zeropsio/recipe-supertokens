@@ -1,9 +1,5 @@
 #!/bin/sh
 
-API_KEY=$API
-EMAIL="<YOUR_EMAIL>"
-PASSWORD="<YOUR_PASSWORD>"
-
 curl --location --request POST ${SUPERTOKENS_INSTANCE} \
      --header "rid: dashboard" \
      --header "api-key: ${SUPERTOKENS_API_KEY}" \

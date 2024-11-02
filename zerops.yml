@@ -34,7 +34,7 @@ zerops:
     run:
       base: nodejs@22
       initCommands:
-        - zsc execOnce init -- sh create-user.sh
+        - zsc execOnce INIT -- sh create-user.sh
       ports:
         - port: 3001
           httpSupport: true
