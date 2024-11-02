@@ -41,7 +41,6 @@ HTTP_CODE=$(echo "$GENERATE_RESPONSE" | grep "HTTP_CODE" | cut -d":" -f2)
 BODY=$(echo "$GENERATE_RESPONSE" | sed '$d')
 
 echo "Response Code: ${HTTP_CODE}"
-echo "Response Body: ${BODY}"
 echo ""
 
 if [ "$HTTP_CODE" != "200" ]; then
