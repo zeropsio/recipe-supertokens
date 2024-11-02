@@ -4,7 +4,7 @@ import Dashboard from 'supertokens-node/recipe/dashboard';
 import Passwordless from 'supertokens-node/recipe/passwordless';
 import Session from "supertokens-node/recipe/session";
 import { SMTPService } from "supertokens-node/recipe/passwordless/emaildelivery";
-import { middleware } from 'supertokens-node/framework/express';
+import { middleware, errorHandler } from 'supertokens-node/framework/express';
 
 const app = express();
 
@@ -41,11 +41,31 @@ SuperTokens.init({
   ],
 });
 
-app.use(middleware());
+app.use(
+  middleware(),
+  cors({
+    origin: process.env.WEBSITE_DOMAIN,
+    allowedHeaders: ["content-type", ...SuperTokens.getAllCORSHeaders()],
+    methods: ["GET", "PUT", "POST", "DELETE"],
+    credentials: true,
+  })
+);
+
+// An example API that requires session verification
+app.get("/sessioninfo", verifySession(), async (req, res) => {
+  let session = req.session;
+  res.send({
+      sessionHandle: session.getHandle(),
+      userId: session.getUserId(),
+      accessTokenPayload: session.getAccessTokenPayload(),
+  });
+});
 
 app.get('/health', (_, res) => {
   res.send('ok');
 });
+
+app.use(errorHandler());
 
 app.listen(3001, () => {
   console.log('Server running on http://localhost:3001');
