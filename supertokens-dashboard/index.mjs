@@ -7,9 +7,12 @@ const app = express();
 
 SuperTokens.init({
   appInfo: {
-    apiDomain: "https://supertokens-63e-3567.prg1.zerops.app",
+    apiDomain: process.env.zeropsSubdomain || process.env.API_DOMAIN,
     appName: "MyApp",
-    websiteDomain: "https://supertokens-63e-3567.prg1.zerops.app",
+    websiteDomain: process.env.zeropsSubdomain || process.env.WEBSITE_DOMAIN,
+  },
+  supertokens: {
+    connectionURI: process.env.supertoken_zeropsSubdomain || process.env.SUPERTOKEN_INSTANCE,
   },
   recipeList: [
     Dashboard.init(),
