@@ -5,7 +5,7 @@ EMAIL=${1:-"$SUPERTOKENS_SEED_USER_EMAIL"}
 TENANT_ID=${3:-"public"}  # Default tenant is usually "public"
 SIGNUP_METHOD="passwordless"
 
-if [ -z "$EMAIL" ] || [ -z "$PASSWORD" ]; then
+if [ -z "$EMAIL" ]; then
     echo "Usage: $0 <email> [tenant_id]"
     echo "Example: $0 user@example.com public"
     exit 1
