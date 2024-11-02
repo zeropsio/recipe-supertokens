@@ -14,7 +14,7 @@ services:
     type: go@1.22
     buildFromGit: https://github.com/zeropsio/recipe-mailpit@main
     enableSubdomainAccess: true
-    priority: 100
+    priority: 90
 
   - hostname: supertokens
     type: ubuntu@22.04
