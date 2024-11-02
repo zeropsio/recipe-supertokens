@@ -10,6 +10,8 @@ zerops:
         - curl 'https://api.supertokens.com/0/user/app/download?pluginName=postgresql&os=linux&core=9.3.0&api-version=0' --output supertokens.zip
         - unzip supertokens.zip
         - cd supertokens && sudo sh install
+        - rm -rf supertokens
+        - rm supertokens.zip
       ports:
         - port: 3567
           httpSupport: true
