@@ -4,6 +4,7 @@ import SuperTokens from 'supertokens-node';
 import Dashboard from 'supertokens-node/recipe/dashboard';
 import Passwordless from 'supertokens-node/recipe/passwordless';
 import Session from 'supertokens-node/recipe/session';
+import { verifySession } from "supertokens-node/recipe/session/framework/express";
 import { SMTPService } from 'supertokens-node/recipe/passwordless/emaildelivery';
 import { middleware, errorHandler } from 'supertokens-node/framework/express';
 
