@@ -45,7 +45,7 @@ services:
       SUPERTOKENS_SEED_USER_EMAIL: admin@example.com
       SUPERTOKENS_API_KEY: ${supertokens_API_KEYS}
       SUPERTOKENS_CONNECTION_URI: ${supertokens_URL}
-      SUPERTOKENS_INSTANCE: ${supertokens_URL}/recipe/dashboard/user
+      SUPERTOKENS_INSTANCE: ${supertokens_URL}
       WEBSITE_DOMAIN: ${angularfrontend_URL}
 
   - hostname: angularfrontend

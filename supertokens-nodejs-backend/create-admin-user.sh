@@ -39,7 +39,7 @@ main() {
     fi
 
     # Execute the curl command
-    curl --location --request POST "${SUPERTOKENS_INSTANCE}" \
+    curl --location --request POST "${SUPERTOKENS_INSTANCE}/recipe/dashboard/user" \
          --header "rid: dashboard" \
          --header "api-key: ${SUPERTOKENS_API_KEY}" \
          --header 'Content-Type: application/json' \
