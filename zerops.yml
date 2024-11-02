@@ -17,6 +17,6 @@ zerops:
           httpSupport: true
       initCommands:
         - sh -x setup-envs.sh
-      start: supertokens start --foreground --with-config="/var/www/supertokens-config.yml"
+      start: supertokens start --foreground --with-config="/tmp/supertokens-config.yml"
         
       
