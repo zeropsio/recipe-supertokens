@@ -4,38 +4,37 @@ MAX_ATTEMPTS=30
 SLEEP_INTERVAL=2
 
 check_required_vars() {
-    local missing_vars=0
-
-    if [ -z "${SUPERTOKENS_INSTANCE}" ]; then
-        echo "Error: SUPERTOKENS_INSTANCE is not set"
-        missing_vars=1
+    if [ -z "${SUPERTOKENS_INSTANCE}" ] || \
+       [ -z "${SUPERTOKENS_API_KEY}" ] || \
+       [ -z "${SUPERTOKENS_ADMIN_EMAIL}" ] || \
+       [ -z "${SUPERTOKENS_ADMIN_PASSWORD}" ] || \
+       [ -z "${core_zeropsSubdomainHost}" ]; then
+        return 1
     fi
-
-    if [ -z "${SUPERTOKENS_API_KEY}" ]; then
-        echo "Error: SUPERTOKENS_API_KEY is not set"
-        missing_vars=1
-    fi
-
-    if [ -z "${SUPERTOKENS_ADMIN_EMAIL}" ]; then
-        echo "Error: SUPERTOKENS_ADMIN_EMAIL is not set"
-        missing_vars=1
-    fi
-
-    if [ -z "${SUPERTOKENS_ADMIN_PASSWORD}" ]; then
-        echo "Error: SUPERTOKENS_ADMIN_PASSWORD is not set"
-        missing_vars=1
-    fi
-
-    if [ -z "${core_zeropsSubdomainHost}" ]; then
-        echo "Error: core_zeropsSubdomainHost is not set"
-        missing_vars=1
-    fi
-
-    return $missing_vars
+    return 0
 }
 
 main() {
-    if ! check_required_vars; then
+    local attempt=1
+
+    while [ $attempt -le $MAX_ATTEMPTS ]; do
+        if check_required_vars; then
+            echo "All required environment variables are set"
+            break
+        fi
+
+        echo "Waiting for environment variables (attempt $attempt/$MAX_ATTEMPTS)..."
+        sleep $SLEEP_INTERVAL
+        attempt=$((attempt + 1))
+    done
+
+    if [ $attempt -gt $MAX_ATTEMPTS ]; then
+        echo "Error: Required environment variables not set after $MAX_ATTEMPTS attempts:"
+        [ -z "${SUPERTOKENS_INSTANCE}" ] && echo "- SUPERTOKENS_INSTANCE is missing"
+        [ -z "${SUPERTOKENS_API_KEY}" ] && echo "- SUPERTOKENS_API_KEY is missing"
+        [ -z "${SUPERTOKENS_ADMIN_EMAIL}" ] && echo "- SUPERTOKENS_ADMIN_EMAIL is missing"
+        [ -z "${SUPERTOKENS_ADMIN_PASSWORD}" ] && echo "- SUPERTOKENS_ADMIN_PASSWORD is missing"
+        [ -z "${core_zeropsSubdomainHost}" ] && echo "- core_zeropsSubdomainHost is missing"
         exit 1
     fi
 
