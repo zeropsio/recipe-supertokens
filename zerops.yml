@@ -44,7 +44,7 @@ zerops:
     run:
       base: nodejs@22
       initCommands:
-        - echo printenv
+        - printenv
         - echo $hostname
         - echo $core_zeropsSubdomainHost
         - zsc execOnce INIT -- sh create-user.sh
