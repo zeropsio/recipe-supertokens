@@ -12,7 +12,7 @@ SuperTokens.init({
     websiteDomain: process.env.zeropsSubdomain || process.env.WEBSITE_DOMAIN,
   },
   supertokens: {
-    connectionURI: process.env.supertoken_zeropsSubdomain || process.env.SUPERTOKEN_INSTANCE,
+    connectionURI: process.env.supertokens_zeropsSubdomain || process.env.SUPERTOKEN_INSTANCE,
   },
   recipeList: [
     Dashboard.init(),
