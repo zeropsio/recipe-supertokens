@@ -23,14 +23,15 @@ zerops:
       initCommands:
         - sh setup-envs.sh
       start: supertokens start --foreground --with-config="/tmp/supertokens-config.yml"
-  - setup: dashboard
+
+  - setup: nodejsbackend
     build:
       base: nodejs@22
       buildCommands:
         - |
-          cd supertokens-dashboard
+          cd supertokens-nodejs-backend
           npm i
-      deployFiles: ./supertokens-dashboard/~
+      deployFiles: ./supertokens-nodejs-backend/~
     run:
       base: nodejs@22
       initCommands:
@@ -39,6 +40,24 @@ zerops:
         - port: 3001
           httpSupport: true
       start: npm start
+
+  - setup: angularfrontend
+    build:
+      base: nodejs@20
+      buildCommands:
+        - |
+          cd supertokens-angular-frontend
+          npm ci
+          npm run build
+      deployFiles:
+        - ./supertokens-angular-frontend/dist/angular-prebuilt/~
+    run:
+      base: static
+      routing:
+        redirects:
+          - from: /*
+            to: /index.html
+
 
 
 
