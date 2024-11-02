@@ -19,6 +19,7 @@ zerops:
       start: supertokens start --foreground --with-config="/tmp/supertokens-config.yml"
   - setup: dashboard
     build:
+      base: nodejs@20
       buildCommands:
         - |
           cd supertokens-dashboard
