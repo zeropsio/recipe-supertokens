@@ -23,6 +23,15 @@ zerops:
       initCommands:
         - sh setup-envs.sh
       start: supertokens start --foreground --with-config="/tmp/supertokens-config.yml"
+      healthCheck:
+        httpGet:
+          port: 3567
+          path: /hello
+    deploy:
+      readinessCheck:
+        httpGet:
+          port: 3567
+          path: /hello
 
   - setup: nodejsbackend
     build:
@@ -40,6 +49,15 @@ zerops:
         - port: 3001
           httpSupport: true
       start: npm start
+      healthCheck:
+        httpGet:
+          port: 3001
+          path: /health
+    deploy:
+      readinessCheck:
+        httpGet:
+          port: 3001
+          path: /health
 
   - setup: angularfrontend
     build:
@@ -62,6 +80,15 @@ zerops:
           - ./
         delimiter:
           - "$$"
+      healthCheck:
+        httpGet:
+          port: 80
+          path: /
+    deploy:
+      readinessCheck:
+        httpGet:
+          port: 80
+          path: /
 
 
 

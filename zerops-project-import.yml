@@ -16,6 +16,7 @@ services:
     enableSubdomainAccess: true
     envSecrets:
       API_KEYS: <@generateRandomString(<32>) | toHex>
+      URL: https://supertokens-${core_zeropsSubdomainHost}-3000.prg1.zerops.app
     priority: 90
 
   - hostname: mailpit
@@ -29,7 +30,8 @@ services:
     buildFromGit: https://github.com/zeropsio/recipe-supertokens
     enableSubdomainAccess: true
     envSecrets:
-      API_DOMAIN: ${zeropsSubdomain}
+      URL: https://nodejsbackend-${core_zeropsSubdomainHost}-3001.prg1.zerops.app
+      API_DOMAIN: ${URL}
       APP_NAME: zerops-recipe
       SMTP_FROM_EMAIL: no-reply@example.com
       SMTP_FROM_NAME: zerops
@@ -47,6 +49,7 @@ services:
     enableSubdomainAccess: true
     buildFromGit: https://github.com/zeropsio/recipe-supertokens
     envSecrets:
+      URL: https://angularfrontend-${core_zeropsSubdomainHost}.prg1.zerops.app
       API_DOMAIN: ${nodejsbackend_zeropsSubdomain}
       APP_NAME: ${nodejsbackend_APP_NAME}
       WEBSITE_DOMAIN: ${zeropsSubdomain}
