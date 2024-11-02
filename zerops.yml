@@ -5,8 +5,7 @@ zerops:
         - echo "noop"
       deployFiles: ./supertokens-core/~
     run:
-      base: java@21
-      os: ubuntu
+      base: ubuntu@22.04
       prepareCommands:
         - curl 'https://api.supertokens.com/0/user/app/download?pluginName=postgresql&os=linux&core=9.3.0&api-version=0' --output supertokens.zip
         - unzip supertokens.zip
@@ -19,7 +18,7 @@ zerops:
       start: supertokens start --foreground --with-config="/tmp/supertokens-config.yml"
   - setup: dashboard
     build:
-      base: nodejs@20
+      base: nodejs@22
       buildCommands:
         - |
           cd supertokens-dashboard
