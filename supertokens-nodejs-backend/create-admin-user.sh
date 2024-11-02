@@ -26,8 +26,8 @@ check_required_vars() {
         missing_vars=1
     fi
 
-    if [ -z "${SUPERTOKENS_CONNECTION_URI}" ]; then
-        echo "Error: SUPERTOKENS_CONNECTION_URI is not set"
+    if [ -z "${core_zeropsSubdomainHost}" ]; then
+        echo "Error: core_zeropsSubdomainHost is not set"
         missing_vars=1
     fi
 
