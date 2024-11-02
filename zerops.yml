@@ -13,6 +13,13 @@ zerops:
       ports:
         - port: 3567
           httpSupport: true
+      envVariables:
+        POSTGRESQL_PASSWORD: ${db_password}
+        POSTGRESQL_HOST: ${db_hostname}
+        POSTGRESQL_PORT: ${db_port}
+        POSTGRESQL_DATABASE_NAME: ${db_dbName}
+        POSTGRESQL_USER: ${db_user}
+        SUPERTOKENS_PORT: 3567
       initCommands:
         - sh setup-envs.sh
       start: supertokens start --foreground --with-config="/tmp/supertokens-config.yml"
