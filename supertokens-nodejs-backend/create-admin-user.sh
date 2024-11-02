@@ -34,31 +34,8 @@ check_required_vars() {
     return $missing_vars
 }
 
-wait_for_connection() {
-    local attempt=1
-
-    while [ $attempt -le $MAX_ATTEMPTS ]; do
-        if nc -z $(echo "${SUPERTOKENS_CONNECTION_URI}" | sed 's|http://||' | cut -d: -f1) \
-                  $(echo "${SUPERTOKENS_CONNECTION_URI}" | sed 's|http://||' | cut -d: -f2) 2>/dev/null; then
-            echo "SuperTokens connection established"
-            return 0
-        fi
-
-        echo "Waiting for SuperTokens connection (attempt $attempt/$MAX_ATTEMPTS)..."
-        sleep $SLEEP_INTERVAL
-        attempt=$((attempt + 1))
-    done
-
-    echo "Error: Could not establish connection to SuperTokens after $MAX_ATTEMPTS attempts"
-    return 1
-}
-
 main() {
     if ! check_required_vars; then
-        exit 1
-    fi
-
-    if ! wait_for_connection; then
         exit 1
     fi
 

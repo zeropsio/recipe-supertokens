@@ -1,14 +1,13 @@
 #!/bin/sh
 
 # Default values
-EMAIL=${1:-""}
-PASSWORD=${2:-""}
+EMAIL=${1:-"$SUPERTOKENS_SEED_USER_EMAIL"}
 TENANT_ID=${3:-"public"}  # Default tenant is usually "public"
 SIGNUP_METHOD="passwordless"
 
 if [ -z "$EMAIL" ] || [ -z "$PASSWORD" ]; then
-    echo "Usage: $0 <email> <password> [tenant_id]"
-    echo "Example: $0 user@example.com password123 public"
+    echo "Usage: $0 <email> [tenant_id]"
+    echo "Example: $0 user@example.com public"
     exit 1
 fi
 
@@ -21,13 +20,9 @@ RESPONSE=$(curl --location --request POST "${SUPERTOKENS_INSTANCE}/recipe/signup
      --header 'Content-Type: application/json' \
      --data-raw "{
          \"email\": \"${EMAIL}\",
-         \"password\": \"${PASSWORD}\",
          \"formFields\": [{
              \"id\": \"email\",
              \"value\": \"${EMAIL}\"
-         }, {
-             \"id\": \"password\",
-             \"value\": \"${PASSWORD}\"
          }]
      }")
 
