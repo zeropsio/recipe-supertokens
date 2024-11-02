@@ -16,32 +16,45 @@ if echo "$IDENTIFIER" | grep -q "^\+"; then
     TYPE="phone"
 fi
 
-echo "Generating passwordless code..."
-# Step 1: Generate the code
+echo "=== Configuration ==="
+echo "SuperTokens Instance: ${SUPERTOKENS_INSTANCE}"
+echo "Identifier Type: ${TYPE}"
+echo "Identifier: ${IDENTIFIER}"
+echo ""
+
+GENERATE_CODE_URL="${SUPERTOKENS_INSTANCE}/recipe/signinup/code"
+echo "=== Step 1: Generating passwordless code ==="
+echo "POST ${GENERATE_CODE_URL}"
+echo "Headers:"
+echo "  api-key: ${SUPERTOKENS_API_KEY}"
+echo "  Content-Type: application/json; charset=utf-8"
+
 if [ "$TYPE" = "phone" ]; then
-    GENERATE_RESPONSE=$(curl --location --request POST "${SUPERTOKENS_INSTANCE}/recipe/signinup/code" \
-         --header "api-key: ${SUPERTOKENS_API_KEY}" \
-         --header 'Content-Type: application/json; charset=utf-8' \
-         --write-out "\nHTTP_CODE:%{http_code}" \
-         --data-raw "{
-             \"phoneNumber\": \"${IDENTIFIER}\"
-         }")
+    REQUEST_BODY="{\"phoneNumber\": \"${IDENTIFIER}\"}"
 else
-    GENERATE_RESPONSE=$(curl --location --request POST "${SUPERTOKENS_INSTANCE}/recipe/signinup/code" \
-         --header "api-key: ${SUPERTOKENS_API_KEY}" \
-         --header 'Content-Type: application/json; charset=utf-8' \
-         --write-out "\nHTTP_CODE:%{http_code}" \
-         --data-raw "{
-             \"email\": \"${IDENTIFIER}\"
-         }")
+    REQUEST_BODY="{\"email\": \"${IDENTIFIER}\"}"
 fi
+echo "Request Body: ${REQUEST_BODY}"
+echo ""
+
+# Step 1: Generate the code
+GENERATE_RESPONSE=$(curl --verbose --location --request POST "${GENERATE_CODE_URL}" \
+     --header "api-key: ${SUPERTOKENS_API_KEY}" \
+     --header 'Content-Type: application/json; charset=utf-8' \
+     --write-out "\nHTTP_CODE:%{http_code}" \
+     --data-raw "${REQUEST_BODY}" 2>&1)
 
 HTTP_CODE=$(echo "$GENERATE_RESPONSE" | grep "HTTP_CODE" | cut -d":" -f2)
 BODY=$(echo "$GENERATE_RESPONSE" | sed '$d')
 
+echo "Response Code: ${HTTP_CODE}"
+echo "Response Body: ${BODY}"
+echo ""
+
 if [ "$HTTP_CODE" != "200" ]; then
     echo "Error generating code. HTTP Code: $HTTP_CODE"
-    echo "Response: $BODY"
+    echo "Full curl output:"
+    echo "$GENERATE_RESPONSE"
     exit 1
 fi
 
@@ -49,23 +62,42 @@ fi
 PRE_AUTH_SESSION_ID=$(echo "$BODY" | grep -o '"preAuthSessionId":"[^"]*"' | cut -d'"' -f4)
 LINK_CODE=$(echo "$BODY" | grep -o '"linkCode":"[^"]*"' | cut -d'"' -f4)
 
+if [ -z "$PRE_AUTH_SESSION_ID" ] || [ -z "$LINK_CODE" ]; then
+    echo "Error: Could not extract required values from response"
+    echo "PreAuthSessionId: ${PRE_AUTH_SESSION_ID}"
+    echo "LinkCode: ${LINK_CODE}"
+    exit 1
+fi
+
 echo "Code generated successfully!"
 echo "PreAuthSessionId: $PRE_AUTH_SESSION_ID"
 echo "LinkCode: $LINK_CODE"
+echo ""
+
+CONSUME_CODE_URL="${SUPERTOKENS_INSTANCE}/recipe/signinup/code/consume"
+echo "=== Step 2: Consuming code to create user ==="
+echo "POST ${CONSUME_CODE_URL}"
+echo "Headers:"
+echo "  api-key: ${SUPERTOKENS_API_KEY}"
+echo "  Content-Type: application/json; charset=utf-8"
+
+REQUEST_BODY="{\"preAuthSessionId\": \"${PRE_AUTH_SESSION_ID}\", \"linkCode\": \"${LINK_CODE}\"}"
+echo "Request Body: ${REQUEST_BODY}"
+echo ""
 
 # Step 2: Consume the code
-echo "Consuming code to create user..."
-CONSUME_RESPONSE=$(curl --location --request POST "${SUPERTOKENS_INSTANCE}/recipe/signinup/code/consume" \
+CONSUME_RESPONSE=$(curl --verbose --location --request POST "${CONSUME_CODE_URL}" \
      --header "api-key: ${SUPERTOKENS_API_KEY}" \
      --header 'Content-Type: application/json; charset=utf-8' \
      --write-out "\nHTTP_CODE:%{http_code}" \
-     --data-raw "{
-         \"preAuthSessionId\": \"${PRE_AUTH_SESSION_ID}\",
-         \"linkCode\": \"${LINK_CODE}\"
-     }")
+     --data-raw "${REQUEST_BODY}" 2>&1)
 
 HTTP_CODE=$(echo "$CONSUME_RESPONSE" | grep "HTTP_CODE" | cut -d":" -f2)
 BODY=$(echo "$CONSUME_RESPONSE" | sed '$d')
+
+echo "Response Code: ${HTTP_CODE}"
+echo "Response Body: ${BODY}"
+echo ""
 
 if [ "$HTTP_CODE" = "200" ]; then
     echo "User created/signed in successfully!"
@@ -73,6 +105,7 @@ if [ "$HTTP_CODE" = "200" ]; then
     echo "User ID: $USER_ID"
 else
     echo "Error consuming code. HTTP Code: $HTTP_CODE"
-    echo "Response: $BODY"
+    echo "Full curl output:"
+    echo "$CONSUME_RESPONSE"
     exit 1
 fi
