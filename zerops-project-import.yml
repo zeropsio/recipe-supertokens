@@ -42,7 +42,7 @@ services:
       SMTP_PORT: "1025"
       SUPERTOKENS_ADMIN_EMAIL: admin@example.com
       SUPERTOKENS_ADMIN_PASSWORD: <@generateRandomString(<12>) | toHex>xY1_
-      SUPERTOKENS_SEED_USER_EMAIL: admin@example.com
+      SUPERTOKENS_SEED_USER_EMAIL: user@example.com
       SUPERTOKENS_API_KEY: ${supertokens_API_KEYS}
       SUPERTOKENS_CONNECTION_URI: ${supertokens_URL}
       SUPERTOKENS_INSTANCE: ${supertokens_URL}
