@@ -50,13 +50,18 @@ zerops:
           npm ci
           npm run build
       deployFiles:
-        - ./supertokens-angular-frontend/dist/angular-prebuilt/~
+        - ./supertokens-angular-frontend/dist/angular-prebuilt/browser/~
     run:
       base: static
       routing:
         redirects:
           - from: /*
             to: /index.html
+      envReplace:
+        target:
+          - ./
+        delimiter:
+          - "$$"
 
 
 

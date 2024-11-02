@@ -4,13 +4,13 @@ import Session from "supertokens-web-js/recipe/session";
 export function initSuperTokensUI() {
     (window as any).supertokensUIInit("supertokensui", {
         appInfo: {
-            websiteDomain: "http://localhost:3000",
-            apiDomain: "http://localhost:3001",
-            appName: "SuperTokens Demo App",
+            websiteDomain: "$$WEBSITE_DOMAIN$$",
+            apiDomain: "$$API_DOMAIN$$",
+            appName: "$$APP_NAME$$",
         },
         recipeList: [
             (window as any).supertokensUIPasswordless.init({
-                contactMethod: "EMAIL_OR_PHONE",
+                contactMethod: "EMAIL",
             }),
             (window as any).supertokensUISession.init(),
         ],
@@ -20,8 +20,8 @@ export function initSuperTokensUI() {
 export function initSuperTokensWebJS() {
     SuperTokens.init({
         appInfo: {
-            appName: "SuperTokens Demo App",
-            apiDomain: "http://localhost:3001",
+            appName: "$$APP_NAME$$",
+            apiDomain: "$$API_DOMAIN$$",
         },
         recipeList: [Session.init()],
     });
