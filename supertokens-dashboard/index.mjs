@@ -22,6 +22,7 @@ SuperTokens.init({
     Dashboard.init(),
     Passwordless.init({
       contactMethod: 'EMAIL',
+      flowType: 'MAGIC_LINK',
       emailDelivery: {
         service: new SMTPService({
           smtpSettings: {
