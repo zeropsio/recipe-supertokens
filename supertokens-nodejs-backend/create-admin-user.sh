@@ -20,6 +20,7 @@ main() {
     while [ $attempt -le $MAX_ATTEMPTS ]; do
         if check_required_vars; then
             echo "All required environment variables are set"
+            echo "${SUPERTOKENS_INSTANCE}/recipe/dashboard/user"
             break
         fi
 
